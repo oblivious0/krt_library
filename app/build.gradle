@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "krt.wid.nohttp"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            // 接入 armeabi ,armeabi-v7a ,x86
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86'
+        }
+    }
+    signingConfigs {
+        config {
+            keyAlias 'krtzhlygz'
+            keyPassword 'krt123456'
+            storeFile file('KRT_ZHLY_GZ_key')
+            storePassword 'krt123456'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    lintOptions {
+        abortOnError false
+        disable 'CheckResult'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+repositories {
+    mavenCentral()
+    flatDir { dirs 'libs' }
+    maven { url 'https://maven.google.com' }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(path: ':http')
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+}

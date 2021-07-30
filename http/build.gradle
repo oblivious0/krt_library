@@ -1,0 +1,96 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.Marcus'
+
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+        disable 'CheckResult'
+    }
+
+}
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+repositories {
+    mavenCentral()
+    flatDir { dirs 'libs' }
+}
+ext.supportLibVersion = '1.1.0'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation(name: 'vpi', ext: 'aar')
+    api "androidx.appcompat:appcompat:${supportLibVersion}"
+    api "androidx.recyclerview:recyclerview:${supportLibVersion}"
+    api 'androidx.cardview:cardview:1.0.0'
+    api 'androidx.core:core:1.2.0'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45'
+    api 'com.wang.avi:library:2.1.3'
+    api 'com.android.support:multidex:1.0.3'
+    api 'top.zibin:Luban:1.1.8'
+    api 'io.reactivex.rxjava2:rxjava:2.2.12'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = false
+    }
+    api 'com.github.lzyzsd:circleprogress:1.2.1'
+    api 'com.blankj:utilcode:1.25.9'
+    api 'org.greenrobot:eventbus:3.1.1'
+    api 'com.github.hackware1993:MagicIndicator:1.5.0'
+    api 'com.jaeger.statusbarutil:library:1.5.1'
+    api 'com.daimajia.easing:library:2.1@aar'
+    api 'com.daimajia.androidanimations:library:2.3@aar'
+    api 'com.appolica:flubber:1.0.1'
+    api 'com.zhihu.android:matisse:0.5.3-beta3'
+    api 'com.lzy.net:okgo:3.0.4'
+    api 'com.alibaba:fastjson:1.1.70.android'
+    api 'com.lcodecorex:tkrefreshlayout:1.0.7'
+    api 'com.droidninja:filepicker:2.2.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation('com.readystatesoftware.chuck:library:1.0.4') {
+        transitive false
+    }
+    api('com.czt.mp3recorder:library:1.0.4') {
+        transitive false
+    }
+    api('com.yanzhenjie.permission:support:2.0.1') {
+        transitive false
+    }
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    api 'jp.wasabeef:glide-transformations:4.0.0'
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'
+    api 'net.frakbot:jumpingbeans:1.3.0'
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+}
+//gradlew clean build bintrayUpload -PbintrayUser=wm121567134 -PbintrayKey=63e749aba5f60e5a129c98a5860e65ecca3b2529 -PdryRun=false -x releaseAndroidJavadocs
+//gradlew clean build bintrayUpload -PbintrayUser=wm121567134 -PbintrayKey=63e749aba5f60e5a129c98a5860e65ecca3b2529 -PdryRun=false
+publish {
+    userOrg = 'wm121567134'    //bintray.com用户名
+    groupId = 'com.marcus'    //jcenter上的路径
+    artifactId = 'baseModule'    //自己的maven上添加的包名
+    publishVersion = '1.5.1-beta'    //版本号 (项目迁移至androidx)
+//    publishVersion = '1.0.0-low'    //针对低版本号兼容
+    desc = 'desc...'    //描述
+    website = 'https://github.com/marcus'    //网站，不重要；
+}
